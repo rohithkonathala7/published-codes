@@ -97,3 +97,24 @@ DELETE FROM
   T
 WHERE
   (rownum > 1)
+***************************************
+***************************************
+Shippings
+shipping_id	status	customer
+1	Pending	2
+2	Pending	4
+3	Delivered	3
+4	Pending	5
+5	Delivered	1
+
+select * from shippings group by shipping_id having(status = "Pending");
+
+
+
+
+
+
+
+
+
+
