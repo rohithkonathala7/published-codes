@@ -1,0 +1,99 @@
+-- CREATE TABLE Employee (
+--   name varchar(200),
+--   id integer,
+--   designation varchar(200),
+--   blah varchar(200)
+-- );
+-- INSERT INTO
+--   Employee (name, id, designation, blah)
+-- VALUES
+--   ("john", 10327, "Software engineer", "something");
+-- ************************************************
+-- SELECT
+--   *
+-- FROM
+--   Employee
+-- WHERE
+--   id = 10327
+-- **************************************************
+-- ALTER TABLE
+--   Employee DROP COLUMN blah;
+-- **************************************************
+-- ALTER TABLE
+--   Employee
+-- ADD
+--   salary integer;
+-- ***************************************************
+-- SELECT
+--   *
+-- FROM
+--   Employee
+-- WHERE
+--   name = "john";
+-- ***************************************************
+-- UPDATE
+--   Employee
+-- SET
+--   salary = 700000
+-- WHERE
+--   name = "rohith";
+-- ************************************************
+-- SELECT
+--   *
+-- FROM
+--   Employee
+-- WHERE
+--   name IS NULL
+--   AND salary = 700000
+-- *********************************************
+-- DELETE FROM
+--   Employee
+-- WHERE
+--   name IS NULL
+--   AND salary = 700000
+-- *********************************************
+-- To get duplicate rows
+-- *********************************************
+-- SELECT
+--   name,
+--   id,
+--   designation,
+--   salary,
+--   ROW_NUMBER() over (
+--     PARTITION by name,
+--     id,
+--     designation,
+--     salary
+--     ORDER BY
+--       name,
+--       id,
+--       designation,
+--       salary
+--   ) rownum
+-- FROM
+--   Employee;
+--   ***********************************
+WITH T AS (
+  SELECT
+    name,
+    id,
+    designation,
+    salary,
+    ROW_NUMBER() over (
+      PARTITION by name,
+      id,
+      designation,
+      salary
+      ORDER BY
+        name,
+        id,
+        designation,
+        salary
+    ) rownum
+  FROM
+    Employee
+)
+DELETE FROM
+  T
+WHERE
+  (rownum > 1)
